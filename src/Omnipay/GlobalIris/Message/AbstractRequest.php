@@ -99,15 +99,35 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
 	public function getBaseData($autoSettle = true, $card = null)
 	{
+		$card = $this->getCard();
+
 		$data = array(
-			'MERCHANT_ID'           => $this->getMerchantId(),
-			'ACCOUNT'               => $this->getAccount(),
-			'ORDER_ID'              => $this->getTransactionId(),
-			'CURRENCY'              => $this->getCurrency(),
-			'MERCHANT_RESPONSE_URL' => $this->getReturnUrl(),
-			'AMOUNT'                => round($this->getAmount() * 100),
-			'TIMESTAMP'             => gmdate('YmdHis'),
-			'AUTO_SETTLE_FLAG'      => $autoSettle
+			'TIMESTAMP'                       => gmdate('YmdHis'),
+			'MERCHANT_ID'                     => $this->getMerchantId(),
+			'ACCOUNT'                         => $this->getAccount(),
+			'ORDER_ID'                        => $this->getTransactionId(),
+			'AMOUNT'                          => round($this->getAmount() * 100),
+			'CURRENCY'                        => $this->getCurrency(),
+			'AUTO_SETTLE_FLAG'                => $autoSettle ? 1 : 0,
+			'MERCHANT_RESPONSE_URL'           => $this->getReturnUrl(),
+			
+			'HPP_VERSION'                     => 2,
+			'HPP_CUSTOMER_EMAIL'              => $card->getEmail(),
+			'HPP_BILLING_STREET1'             => $card->getBillingAddress1(),
+			'HPP_BILLING_STREET2'             => $card->getBillingAddress2(),
+			'HPP_BILLING_STREET3'             => '',
+			'HPP_BILLING_CITY'                => $card->getBillingCity(),
+			'HPP_BILLING_STATE'               => $card->getBillingState(),
+			'HPP_BILLING_POSTALCODE'          => $card->getBillingPostcode(),
+			'HPP_BILLING_COUNTRY'             => $card->getBillingCountry(),
+			'HPP_SHIPPING_STREET1'            => $card->getShippingAddress1(),
+			'HPP_SHIPPING_STREET2'            => $card->getShippingAddress2(),
+			'HPP_SHIPPING_STREET3'            => '',
+			'HPP_SHIPPING_CITY'               => $card->getShippingCity(),
+			'HPP_SHIPPING_STATE'              => $card->getShippingState(),
+			'HPP_SHIPPING_POSTALCODE'         => $card->getShippingPostcode(),
+			'HPP_SHIPPING_COUNTRY'            => $card->getShippingCountry(),
+			'HPP_CHALLENGE_REQUEST_INDICATOR' => 'NO_PREFERENCE',
 		);
 
 		$data['SHA1HASH'] = $this->createSignature($data, 'sha1', $card);
