@@ -9,7 +9,8 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class RedirectAuthorizeResponse extends Response implements RedirectResponseInterface
 {
-	protected $endpoint = 'https://redirect.globaliris.com/epage.cgi';
+	protected $liveCheckoutEndpoint = 'https://hpp.realexpayments.com/pay';
+	protected $testCheckoutEndpoint = 'https://hpp.sandbox.realexpayments.com/pay';
 
 	public function isSuccessful()
 	{
@@ -43,6 +44,6 @@ class RedirectAuthorizeResponse extends Response implements RedirectResponseInte
 
 	protected function getCheckoutEndpoint()
 	{
-		return $this->endpoint;
+		return $this->getRequest()->getTestMode() ? $this->testCheckoutEndpoint : $this->liveCheckoutEndpoint;
 	}
 }
