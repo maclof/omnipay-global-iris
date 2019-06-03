@@ -119,14 +119,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 			'HPP_BILLING_CITY'                => $card->getBillingCity(),
 			'HPP_BILLING_STATE'               => $card->getBillingState(),
 			'HPP_BILLING_POSTALCODE'          => $card->getBillingPostcode(),
-			'HPP_BILLING_COUNTRY'             => 826, //$card->getBillingCountry(),
+			'HPP_BILLING_COUNTRY'             => $card->getBillingCountryUn(),
 			'HPP_SHIPPING_STREET1'            => $card->getShippingAddress1(),
 			'HPP_SHIPPING_STREET2'            => $card->getShippingAddress2(),
 			'HPP_SHIPPING_STREET3'            => '',
 			'HPP_SHIPPING_CITY'               => $card->getShippingCity(),
 			'HPP_SHIPPING_STATE'              => $card->getShippingState(),
 			'HPP_SHIPPING_POSTALCODE'         => $card->getShippingPostcode(),
-			'HPP_SHIPPING_COUNTRY'            => 826, //$card->getShippingCountry(),
+			'HPP_SHIPPING_COUNTRY'            => $card->getShippingCountryUn(),
 			'HPP_CHALLENGE_REQUEST_INDICATOR' => 'NO_PREFERENCE',
 		);
 
