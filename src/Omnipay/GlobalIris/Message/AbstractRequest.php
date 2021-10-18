@@ -112,7 +112,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 			'MERCHANT_RESPONSE_URL'           => $this->getReturnUrl(),
 			
 			'HPP_VERSION'                     => 2,
+			'HPP_CHANNEL'                     => 'ECOM',
+			
 			'HPP_CUSTOMER_EMAIL'              => $card->getEmail(),
+			'HPP_CUSTOMER_PHONENUMBER_MOBILE' => $card->getPhone(),
+			
 			'HPP_BILLING_STREET1'             => substr($card->getBillingAddress1(), 0, 50),
 			'HPP_BILLING_STREET2'             => substr($card->getBillingAddress2(), 0, 50),
 			'HPP_BILLING_STREET3'             => '',
@@ -120,6 +124,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 			'HPP_BILLING_STATE'               => '', // $card->getBillingState(), Should be the country subdivision code defined in ISO 3166-2 minus the country code itself
 			'HPP_BILLING_POSTALCODE'          => substr($card->getBillingPostcode(), 0, 16),
 			'HPP_BILLING_COUNTRY'             => $card->getBillingCountryUn(),
+			
 			'HPP_SHIPPING_STREET1'            => substr($card->getShippingAddress1(), 0, 50),
 			'HPP_SHIPPING_STREET2'            => substr($card->getShippingAddress2(), 0, 50),
 			'HPP_SHIPPING_STREET3'            => '',
@@ -127,6 +132,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 			'HPP_SHIPPING_STATE'              => '', // $card->getShippingState(), Should be the country subdivision code defined in ISO 3166-2 minus the country code itself
 			'HPP_SHIPPING_POSTALCODE'         => substr($card->getShippingPostcode(), 0, 16),
 			'HPP_SHIPPING_COUNTRY'            => $card->getShippingCountryUn(),
+			
+			'HPP_ADDRESS_MATCH_INDICATOR'     => 'FALSE',
 			'HPP_CHALLENGE_REQUEST_INDICATOR' => 'NO_PREFERENCE',
 		);
 
