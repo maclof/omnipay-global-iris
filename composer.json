@@ -27,7 +27,8 @@
 		"psr-0": { "Omnipay\\GlobalIris\\" : "src/" }
 	},
 	"require": {
-		"omnipay/common": "~2.0|~3.0"
+		"omnipay/common": "~2.0|~3.0",
+		"giggsey/libphonenumber-for-php": "^8.12"
 	},
 	"require-dev": {
 		"omnipay/tests": "~2.0|~3.0"
