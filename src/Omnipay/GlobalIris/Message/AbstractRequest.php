@@ -110,7 +110,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 		$phoneUtil = PhoneNumberUtil::getInstance();
 		$numberProto = null;
 		try {
-			$numberProto = $phoneUtil->parse($card->getPhone(), $card->getShippingCountry());
+			$numberProto = $phoneUtil->parse($card->getPhone(), $card->getBillingCountry());
 			$nationalPhoneNumber = $phoneUtil->format($numberProto, PhoneNumberFormat::NATIONAL);
 			$nationalPhoneNumber = preg_replace('/[^0-9.]+/', '', $nationalPhoneNumber);
 			$phoneNumber = $numberProto->getCountryCode() . '|' . $nationalPhoneNumber;
