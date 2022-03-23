@@ -2,6 +2,10 @@
 
 namespace Omnipay\GlobalIris\Message;
 
+use libphonenumber\PhoneNumberUtil;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\NumberParseException;
+
 /**
  * Global Iris Abstract Request
  */
@@ -101,6 +105,19 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 	{
 		$card = $this->getCard();
 
+		$phoneNumber = $card->getPhone();
+
+		$phoneUtil = PhoneNumberUtil::getInstance();
+		$numberProto = null;
+		try {
+			$numberProto = $phoneUtil->parse($card->getPhone(), $card->getShippingCountry());
+			$nationalPhoneNumber = $phoneUtil->format($numberProto, PhoneNumberFormat::NATIONAL);
+			$nationalPhoneNumber = preg_replace('/[^0-9.]+/', '', $nationalPhoneNumber);
+			$phoneNumber = $numberProto->getCountryCode() . '|' . $nationalPhoneNumber;
+		} catch (NumberParseException $e) {
+			//
+		}
+
 		$data = array(
 			'TIMESTAMP'                       => gmdate('YmdHis'),
 			'MERCHANT_ID'                     => $this->getMerchantId(),
@@ -115,7 +132,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 			'HPP_CHANNEL'                     => 'ECOM',
 			
 			'HPP_CUSTOMER_EMAIL'              => $card->getEmail(),
-			'HPP_CUSTOMER_PHONENUMBER_MOBILE' => $card->getPhone(),
+			'HPP_CUSTOMER_PHONENUMBER_MOBILE' => $phoneNumber,
 			
 			'HPP_BILLING_STREET1'             => substr($card->getBillingAddress1(), 0, 50),
 			'HPP_BILLING_STREET2'             => substr($card->getBillingAddress2(), 0, 50),
